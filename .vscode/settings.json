@@ -1,0 +1,14 @@
+{
+  "locofyConfig": {
+    "project_name": "Front-end Development - Assessment (1st Round) • DiGiLABS (Copy)",
+    "id": "6598266088f30288bccd1b9b",
+    "framework": "react-nextjs",
+    "typescript": false,
+    "path": "public/",
+    "componentsPath": "f:\\assignment-digi1\\src\\components",
+    "screensPath": "f:\\assignment-digi1\\src\\pages",
+    "styling": "Tailwind",
+    "unit": "rem",
+    "naming": "Kebab Case"
+  }
+}
