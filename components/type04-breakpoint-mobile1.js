@@ -41,6 +41,35 @@ const Type04BreakpointMobile1 = ({
 
   const [textdata, setTextdata] = useState("");
 
+  const [formeddata, setformeddata] = useState({
+    userEmail: '',
+  });
+
+  const handleInputChange = (e) => {
+    setformeddata({
+      ...formeddata,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { responsedata } = await axios.post('https://digilab-backend-qz1q.onrender.com/api/emails', {
+        email: formeddata.userEmail
+      });
+
+      // // Handle the response as needed
+      alert("Email sent successfully");
+      console.log('Email sent successfully:', responsedata.data);
+      // console.log(formeddata);
+    } catch (error) {
+      // Handle errors
+      console.error('Error sending the email:', error.response);
+    }
+  };
+
   useEffect(() => {
     const fetchText = async () => {
       try {
@@ -234,6 +263,24 @@ const Type04BreakpointMobile1 = ({
                   style={zapIconStyle}
                 />
               </div>
+
+              <form onSubmit={handleFormSubmit} className="mb-4">
+
+                <label >
+                  <input
+                    type="email"
+                    name="userEmail"
+                    id=""
+                    value={formeddata.userEmail}
+                    onChange={handleInputChange}
+                    placeholder="Enter your Email"
+                    className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-pri-purple-400"
+                  />
+                </label>
+                <button type='submit' className="bg-pri-purple-400 text-white py-2 px-4 rounded-md hover:bg-pri-purple-500 focus:outline-none focus:ring focus:border-pri-purple-400">
+                  Submit
+                </button>
+              </form>
             </div>
             <div
               className="relative leading-[20px] font-medium inline-block w-[343px]"
