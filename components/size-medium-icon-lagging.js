@@ -47,6 +47,7 @@ const SizeMediumIconLagging = ({
       height: zapIconHeight,
     };
   }, [zapIconWidth, zapIconHeight]);
+  
 
   return (
     <div

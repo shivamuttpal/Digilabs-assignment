@@ -1,11 +1,10 @@
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import axios from "axios";
 import TypeGreySizeMediumState from "./type-grey-size-medium-state";
 
 const Type04BreakpointMobile1 = ({
   subHeading,
   title,
-  text,
-  arrowRight,
   type04BreakpointMobileWidth,
   type04BreakpointMobileHeight,
   type04BreakpointMobilePosition,
@@ -39,6 +38,24 @@ const Type04BreakpointMobile1 = ({
   textLineHeight1,
   textWidth,
 }) => {
+
+  const [textdata, setTextdata] = useState("");
+
+  useEffect(() => {
+    const fetchText = async () => {
+      try {
+        const response = await axios.get("https://digilab-backend-qz1q.onrender.com/api/settings");
+        const logoData = response.data[0];
+        setTextdata(logoData.buttonText);
+      } catch (error) {
+        console.error("Error fetching text:", error);
+      }
+    };
+
+    fetchText();
+  }, []);
+
+
   const type04BreakpointMobileStyle = useMemo(() => {
     return {
       width: type04BreakpointMobileWidth,
@@ -137,10 +154,10 @@ const Type04BreakpointMobile1 = ({
 
   const zapIconStyle = useMemo(() => {
     return {
-      width: arrowRightIconWidth,
-      height: arrowRightIconHeight,
+      width: '20px',
+      height: '20px',
     };
-  }, [arrowRightIconWidth, arrowRightIconHeight]);
+  }, []);
 
   const text2Style = useMemo(() => {
     return {
@@ -206,24 +223,17 @@ const Type04BreakpointMobile1 = ({
               className="w-[343px] flex flex-col items-center justify-center"
               style={action1Style}
             >
-              <TypeGreySizeMediumState
-                text="Get started for free"
-                zap="/arrowright@2x.png"
-                typeGreySizeMediumStateAlignItems="center"
-                typeGreySizeMediumStateJustifyContent="center"
-                typeGreySizeMediumStateFlexShrink="unset"
-                baseButtonsBackgroundColor="#582066"
-                baseButtonsPadding="16px"
-                baseButtonsBoxSizing="border-box"
-                textColor="#fff"
-                textLineHeight="20px"
-                zapIconWidth="20px"
-                zapIconHeight="20px"
-                typeGreySizeMediumStateAlignSelf="stretch"
-                typeGreySizeMediumStateFlex="1"
-                typeGreySizeMediumStateGap="8px"
-                baseButtonsFontSize="16px"
-              />
+              <div className="rounded-lg bg-pri-purple-400 flex flex-row items-center justify-center py-3 px-4 gap-[8px] text-center text-base text-white font-h05-12-medium">
+                <div className="relative leading-[20px] font-medium">
+                  {textdata}
+                </div>
+                <img
+                  className="relative w-5 h-5 overflow-hidden shrink-0 object-cover"
+                  alt=""
+                  src="/arrowright@2x.png"
+                  style={zapIconStyle}
+                />
+              </div>
             </div>
             <div
               className="relative leading-[20px] font-medium inline-block w-[343px]"

@@ -1,11 +1,10 @@
-import { useMemo } from "react";
-import TypeGreySizeMediumState from "./type-grey-size-medium-state";
+import { useState, useEffect, useMemo } from "react";
+import axios from "axios";
+// import TypeGreySizeMediumState from "./type-grey-size-medium-state";
 
 const Type04BreakpointDesktop1 = ({
   subHeading,
   title,
-  text,
-  arrowRight,
   type04BreakpointDesktopWidth,
   type04BreakpointDesktopHeight,
   type04BreakpointDesktopPosition,
@@ -30,6 +29,52 @@ const Type04BreakpointDesktop1 = ({
   noCreditCardLineHeight,
   noCreditCardWidth,
 }) => {
+  const [text, setText] = useState("");
+
+  const [formeddata, setformeddata] = useState({
+    userEmail: '',
+  });
+
+  const handleInputChange = (e) => {
+    setformeddata({
+      ...formeddata,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { responsedata } = await axios.post('https://digilab-backend-qz1q.onrender.com/api/emails', {
+        email: formeddata.userEmail
+      });
+
+      // // Handle the response as needed
+      alert("Email sent successfully");
+      console.log('Email sent successfully:', responsedata.data);
+      // console.log(formeddata);
+    } catch (error) {
+      // Handle errors
+      console.error('Error sending the email:', error.response);
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchText = async () => {
+      try {
+        const response = await axios.get("https://digilab-backend-qz1q.onrender.com/api/settings");
+        const logoData = response.data[0];
+        setText(logoData.buttonText);
+      } catch (error) {
+        console.error("Error fetching text:", error);
+      }
+    };
+
+    fetchText();
+  }, []);
+
   const type04BreakpointDesktop1Style = useMemo(() => {
     return {
       width: type04BreakpointDesktopWidth,
@@ -113,19 +158,19 @@ const Type04BreakpointDesktop1 = ({
     };
   }, [textLineHeight]);
 
-  const zapIconStyle = useMemo(() => {
-    return {
-      width: arrowRightIconWidth,
-      height: arrowRightIconHeight,
-    };
-  }, [arrowRightIconWidth, arrowRightIconHeight]);
-
   const noCreditCardStyle = useMemo(() => {
     return {
       lineHeight: noCreditCardLineHeight,
       width: noCreditCardWidth,
     };
   }, [noCreditCardLineHeight, noCreditCardWidth]);
+
+  const zapIconStyle = useMemo(() => {
+    return {
+      width: '20px',
+      height: '20px',
+    };
+  }, []);
 
   return (
     <div
@@ -188,25 +233,38 @@ const Type04BreakpointDesktop1 = ({
                   className="w-[832px] shrink-0 flex flex-row items-center justify-center"
                   style={action5Style}
                 >
-                  <TypeGreySizeMediumState
-                    text="Get started for free"
-                    zap="/arrowright@2x.png"
-                    typeGreySizeMediumStateAlignItems="center"
-                    typeGreySizeMediumStateJustifyContent="center"
-                    typeGreySizeMediumStateFlexShrink="0"
-                    baseButtonsBackgroundColor="#582066"
-                    baseButtonsPadding="16px"
-                    baseButtonsBoxSizing="border-box"
-                    textColor="#fff"
-                    textLineHeight="20px"
-                    zapIconWidth="20px"
-                    zapIconHeight="20px"
-                    typeGreySizeMediumStateAlignSelf="unset"
-                    typeGreySizeMediumStateFlex="unset"
-                    typeGreySizeMediumStateGap="8px"
-                    baseButtonsFontSize="16px"
-                  />
+                  <div className="rounded-lg bg-pri-purple-400 flex flex-row items-center justify-center py-3 px-4 gap-[8px] text-center text-base text-white font-h05-12-medium">
+                    <div className="relative leading-[20px] font-medium">
+                      {text}
+                    </div>
+                    <img
+                      className="relative w-5 h-5 overflow-hidden shrink-0 object-cover"
+                      alt=""
+                      src="/arrowright@2x.png"
+                      style={zapIconStyle}
+                    />
+                  </div>
+
                 </div>
+                <form onSubmit={handleFormSubmit} className="mb-4">
+
+                  <label >
+                    <input
+                      type="email"
+                      name="userEmail"
+                      id=""
+                      value={formeddata.userEmail}
+                      onChange={handleInputChange}
+                      placeholder="Enter your Email"
+                      className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-pri-purple-400"
+                    />
+                  </label>
+                  <button type='submit' className="bg-pri-purple-400 text-white py-2 px-4 rounded-md hover:bg-pri-purple-500 focus:outline-none focus:ring focus:border-pri-purple-400">
+                    Submit
+                  </button>
+                </form>
+
+
                 <div
                   className="relative leading-[20px] font-medium inline-block w-[832px]"
                   style={noCreditCardStyle}

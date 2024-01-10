@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import axios from "axios";
 import TypeGreySizeMediumState from "./type-grey-size-medium-state";
 
 const Type04BreakpointTablet1 = ({
   subHeading,
   title,
-  text,
+  initialText, // Renamed the prop to avoid conflict
   arrowRight,
   type04BreakpointTabletWidth,
   type04BreakpointTabletHeight,
@@ -40,17 +41,29 @@ const Type04BreakpointTablet1 = ({
   textLineHeight1,
   textWidth,
 }) => {
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    const fetchText = async () => {
+      try {
+        const response = await axios.get("https://digilab-backend-qz1q.onrender.com/api/settings");
+        const data = response.data[0];
+        setText(data.buttonText);
+      } catch (error) {
+        console.error("Error fetching text:", error);
+      }
+    };
+
+    fetchText();
+  }, []);
+
   const type04BreakpointTabletStyle = useMemo(() => {
     return {
       width: type04BreakpointTabletWidth,
       height: type04BreakpointTabletHeight,
       position: type04BreakpointTabletPosition,
     };
-  }, [
-    type04BreakpointTabletWidth,
-    type04BreakpointTabletHeight,
-    type04BreakpointTabletPosition,
-  ]);
+  }, [type04BreakpointTabletWidth, type04BreakpointTabletHeight, type04BreakpointTabletPosition]);
 
   const heroSectionStyle = useMemo(() => {
     return {
@@ -59,12 +72,7 @@ const Type04BreakpointTablet1 = ({
       bottom: heroSectionBottom,
       padding: heroSectionPadding,
     };
-  }, [
-    heroSectionHeight,
-    heroSectionTop,
-    heroSectionBottom,
-    heroSectionPadding,
-  ]);
+  }, [heroSectionHeight, heroSectionTop, heroSectionBottom, heroSectionPadding]);
 
   const containerStyle = useMemo(() => {
     return {
@@ -217,24 +225,18 @@ const Type04BreakpointTablet1 = ({
                 className="w-[640px] flex flex-row items-center justify-center"
                 style={actionStyle}
               >
-                <TypeGreySizeMediumState
-                  text="Get started for free"
-                  zap="/arrowright@2x.png"
-                  typeGreySizeMediumStateAlignItems="center"
-                  typeGreySizeMediumStateJustifyContent="center"
-                  typeGreySizeMediumStateFlexShrink="0"
-                  baseButtonsBackgroundColor="#582066"
-                  baseButtonsPadding="16px"
-                  baseButtonsBoxSizing="border-box"
-                  textColor="#fff"
-                  textLineHeight="20px"
-                  zapIconWidth="20px"
-                  zapIconHeight="20px"
-                  typeGreySizeMediumStateAlignSelf="unset"
-                  typeGreySizeMediumStateFlex="unset"
-                  typeGreySizeMediumStateGap="8px"
-                  baseButtonsFontSize="16px"
-                />
+
+                <div className="rounded-lg bg-pri-purple-400 flex flex-row items-center justify-center py-3 px-4 gap-[8px] text-center text-base text-white font-h05-12-medium">
+                  <div className="relative leading-[20px] font-medium">
+                    {text}
+                  </div>
+                  <img
+                    className="relative w-5 h-5 overflow-hidden shrink-0 object-cover"
+                    alt=""
+                    src="/arrowright@2x.png"
+                    style={zapIconStyle}
+                  />
+                </div>
               </div>
               <div
                 className="relative leading-[20px] font-medium inline-block w-[640px]"

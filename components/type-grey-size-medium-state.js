@@ -1,9 +1,8 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import SizeMediumIconLagging from "./size-medium-icon-lagging";
 
 const TypeGreySizeMediumState = ({
-  text,
-  zap,
   typeGreySizeMediumStateAlignItems,
   typeGreySizeMediumStateJustifyContent,
   typeGreySizeMediumStateFlexShrink,
@@ -14,11 +13,13 @@ const TypeGreySizeMediumState = ({
   textLineHeight,
   zapIconWidth,
   zapIconHeight,
-  typeGreySizeMediumStateAlignSelf,
+  typeGreySizeMediumStateAlignSelf, 
   typeGreySizeMediumStateFlex,
   typeGreySizeMediumStateGap,
   baseButtonsFontSize,
 }) => {
+  
+
   const typeGreySizeMediumStateStyle = useMemo(() => {
     return {
       alignItems: typeGreySizeMediumStateAlignItems,
@@ -33,36 +34,7 @@ const TypeGreySizeMediumState = ({
     typeGreySizeMediumStateAlignSelf,
   ]);
 
-  const sizeMediumIconLaggingStyle = useMemo(() => {
-    return {
-      backgroundColor: baseButtonsBackgroundColor,
-      padding: baseButtonsPadding,
-      boxSizing: baseButtonsBoxSizing,
-      flex: typeGreySizeMediumStateFlex,
-      gap: typeGreySizeMediumStateGap,
-    };
-  }, [
-    baseButtonsBackgroundColor,
-    baseButtonsPadding,
-    baseButtonsBoxSizing,
-    typeGreySizeMediumStateFlex,
-    typeGreySizeMediumStateGap,
-  ]);
-
-  const textStyle = useMemo(() => {
-    return {
-      color: textColor,
-      lineHeight: textLineHeight,
-      fontSize: baseButtonsFontSize,
-    };
-  }, [textColor, textLineHeight, baseButtonsFontSize]);
-
-  const zapIconStyle = useMemo(() => {
-    return {
-      width: zapIconWidth,
-      height: zapIconHeight,
-    };
-  }, [zapIconWidth, zapIconHeight]);
+  // ... rest of your code ...
 
   return (
     <div

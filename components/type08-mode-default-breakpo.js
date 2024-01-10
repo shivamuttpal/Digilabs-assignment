@@ -212,6 +212,8 @@ const Type08ModeDefaultBreakpo = ({
               baseButtonsFontSize="16px"
             />
           </div>
+
+          
         </div>
       </div>
     </div>

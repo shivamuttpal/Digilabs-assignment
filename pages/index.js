@@ -22,6 +22,7 @@ const index = () => {
     };
   }, []); // Empty dependency array to run effect only once on mount
 
+  
   if (screenWidth >= 1024) {
     return <Desktop />;
   } else if (screenWidth >= 768) {
